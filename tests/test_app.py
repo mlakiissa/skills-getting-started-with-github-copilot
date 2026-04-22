@@ -45,7 +45,9 @@ def test_signup_invalid_activity():
 
 def test_root_redirect():
     """Test GET / redirects to static index"""
-    response = client.get("/")
+    # Create client that doesn't follow redirects
+    no_redirect_client = TestClient(app, follow_redirects=False)
+    response = no_redirect_client.get("/")
     assert response.status_code == 307  # Temporary redirect
     assert "/static/index.html" in response.headers["location"]
 
